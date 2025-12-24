@@ -76,7 +76,7 @@ const ProductForm = ({ initialValues, onSave, onCancel, loading }: ProductFormPr
           mode="multiple"
           maxCount={MAX_COUNT}
           style={{ width: '100%' }}
-          placeholder="Please select"
+          placeholder="Select upto 3 tags"
           options={tags.map(tag => ({label:tag, value:tag}))}
         />
 

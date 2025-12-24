@@ -17,7 +17,7 @@ const ProductDetailsDrawer = ({ product, visible, onClose, showActions }: { prod
       onClose={onClose}
       open={visible}
       footer=
-      {showActions && (
+      {
         <>
           <div className="flex gap-3 mt-8">
             <button
@@ -32,7 +32,6 @@ const ProductDetailsDrawer = ({ product, visible, onClose, showActions }: { prod
             </button>
           </div>
         </>
-      )
       }
     >
       <div className="grid grid-cols-2 gap-4 mb-8">

@@ -6,12 +6,24 @@ import Container from "@/components/Container";
 import TableView from "@/components/TableView";
 import GridView from "@/components/GridView";
 import ProductModal from "@/components/ProductFormModal";
-import { MagnifyingGlassIcon, PlusIcon } from "@radix-ui/react-icons";
+import { Cross1Icon, MagnifyingGlassIcon, PlusIcon } from "@radix-ui/react-icons";
 import { useShowModal } from "../context/modal";
+import { useMemo, useRef, useState } from "react";
+import { getFilteredProducts } from "@/utils/filteredProducts";
+import { useDeboucedValue } from "@/hooks";
 
 export default function Home() {
   const { products, view } = useProducts()
-  const {show, setShow} = useShowModal()
+  const { show, setShow } = useShowModal()
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useDeboucedValue(searchQuery)
+  const filteredProducts = useMemo(() => getFilteredProducts(products, debouncedSearchQuery), [products, debouncedSearchQuery])
+  const handleClearFilter = () => {
+    setSearchQuery('')
+    setDebouncedSearchQuery('')
+  }
+  const inputRef = useRef<HTMLInputElement | null>(null)
   return (
     <div>
       <Container>
@@ -21,12 +33,17 @@ export default function Home() {
         </div>
         <div className="flex justify-between mb-4 gap-4">
           <div className="relative flex-1 max-w-md group">
-            <MagnifyingGlassIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-400 group-focus-within:text-indigo-600 transition-colors" />
+            <MagnifyingGlassIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-400 group-focus-within:text-indigo-600 transition-colors cursor-pointer"
+              onClick={() => inputRef.current?.focus()} />
             <input
               type="text"
+              ref={inputRef}
               placeholder="Search products..."
               className="w-full pl-10 pr-4 py-2.5 bg-white text-gray-700 font-medium rounded-xl border border-indigo-100 outline-none transition-all placeholder:text-gray-400 focus:border-indigo-300 focus:ring-4 focus:ring-indigo-500/5 hover:border-indigo-200 shadow-sm"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
+            <Cross1Icon className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-400 group-focus-within:text-indigo-600 transition-colors cursor-pointer" onClick={handleClearFilter} />
           </div>
           <button
             className="w-fit flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-50 text-indigo-700 font-semibold rounded-xl border border-indigo-100 transition-all hover:bg-indigo-600 hover:text-white active:scale-95 cursor-pointer"
@@ -40,10 +57,27 @@ export default function Home() {
           </button>
 
         </div>
-        <div>{view === 'grid' ?
-          <GridView products={products} />
-          : <TableView products={products} />}</div>
-        <ProductModal productId={show} onClose={() => {setShow(null)}} />
+        {filteredProducts.length ?
+          <div>{view === 'grid' ?
+            <GridView products={filteredProducts} />
+            : <TableView products={filteredProducts} />}</div>
+          : <div className="flex flex-col items-center justify-center py-12 px-4 bg-gray-50/50 rounded-3xl border-2 border-dashed border-indigo-100">
+            <div className="bg-indigo-100 p-4 rounded-full mb-4">
+              <MagnifyingGlassIcon className="w-8 h-8 text-indigo-600" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900">No products found</h3>
+            <p className="text-gray-500 text-center max-w-xs mb-6">
+              We couldn't find anything matching "{searchQuery}". Try adjusting your filters or search terms.
+            </p>
+            <button
+              onClick={handleClearFilter}
+              className="text-indigo-600 font-medium hover:text-indigo-700 underline-offset-4 hover:underline cursor-pointer"
+            >
+              Clear all filters
+            </button>
+          </div>
+        }
+        <ProductModal productId={show} onClose={() => { setShow(null) }} />
       </Container>
 
     </div>
