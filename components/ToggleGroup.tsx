@@ -1,7 +1,8 @@
 import { ToggleGroup } from "radix-ui";
 import {
   TableIcon,
-  GridIcon
+  GridIcon,
+  ViewGridIcon
 } from "@radix-ui/react-icons";
 import { useProducts } from "@/app/context/products";
 import clsx from "clsx";
@@ -30,7 +31,7 @@ const ViewToggle = () => {
           "data-[state=on]:bg-violet-200 data-[state=on]:text-violet-900",
         )}
       >
-        <GridIcon width={20} height={20} />
+        <ViewGridIcon width={20} height={20} />
       </ToggleGroup.Item>
       <ToggleGroup.Item
         value="table"
