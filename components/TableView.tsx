@@ -23,14 +23,14 @@ const Actions = ({ product }: { product: Product }) => {
     <div>
       <div className='flex gap-2'>
         <button
-          className={`${btnBase} bg-violet-50 text-violet-600 hover:bg-violet-600 hover:text-white`}
+          className={`${btnBase} bg-violet-50 text-violet-600 hover:bg-violet-600 hover:text-white cursor-pointer`}
           title='View Product'
           onClick={() => setShowDetails(true)}
         >
           <EyeOpenIcon className='w-4 h-4' />
         </button>
         <button
-          className={`${btnBase} bg-gray-100 text-indigo-600 hover:bg-indigo-600 hover:text-white`}
+          className={`${btnBase} bg-gray-100 text-indigo-600 hover:bg-indigo-600 hover:text-white cursor-pointer`}
           title='Edit Product'
           onClick={() => {
             setShow(product.id)

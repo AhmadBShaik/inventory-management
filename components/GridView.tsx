@@ -3,19 +3,20 @@ import { Pagination, PaginationProps, } from "antd";
 import { Dispatch, SetStateAction, useState } from "react";
 
 import { Badge } from "antd";
-import { 
-  ArchiveIcon, 
+import {
+  ArchiveIcon,
 } from "@radix-ui/react-icons";
 import ProductDetailsDrawer from "./ProductDrawer";
 import { formatCurrency } from "@/utils/currencyFormatter";
+import clsx from "clsx";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const [showDetails, setShowDetails] = useState(false)
   return (
     <div className="group relative bg-white border border-gray-200 rounded-2xl p-4 transition-all hover:shadow-xl hover:border-violet-300">
       <div className="absolute top-4 right-4">
-        <Badge 
-          status={product.isActive ? "success" : "default"} 
+        <Badge
+          status={product.isActive ? "success" : "default"}
           text={product.isActive ? "Active" : "Inactive"}
           className="font-medium"
         />
@@ -45,17 +46,21 @@ const ProductCard = ({ product }: { product: Product }) => {
             </span>
           </div>
         </div>
-        
-        <button className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-violet-600 transition-colors" onClick={() => setShowDetails(true)}>
+
+        <button
+          className={clsx("bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-semibold",
+            "hover:bg-violet-600 transition-colors cursor-pointer")}
+          onClick={() => setShowDetails(true)}>
           View Details
         </button>
       </div>
 
-      <ProductDetailsDrawer product={product} visible={showDetails} onClose={() => setShowDetails(false)} showActions/>
+      <ProductDetailsDrawer product={product} visible={showDetails}
+        onClose={() => setShowDetails(false)} showActions />
     </div>
   );
 };
-const GridView = ({ products }: { products: Array<Product>}) => {
+const GridView = ({ products }: { products: Array<Product> }) => {
   const [current, setCurrent] = useState(1)
   const onChange: PaginationProps['onChange'] = (page) => {
     setCurrent(page);
@@ -65,11 +70,14 @@ const GridView = ({ products }: { products: Array<Product>}) => {
   return <div className="space-y-5">
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {products.slice(productFrom, productTo).map(product => (
-        <ProductCard key={product.id} product={product}/>
-        ))}
+        <ProductCard key={product.id} product={product} />
+      ))}
 
     </div>
-    <Pagination align="center" pageSize={8} current={current} onChange={onChange} total={products.length} className="custom-pagination" style={{marginBottom:20}}/>
+    <Pagination
+      align="center" pageSize={8} current={current} onChange={onChange}
+      total={products.length} className="custom-pagination" style={{ marginBottom: 20 }}
+    />
   </div>
 }
 export default GridView;
