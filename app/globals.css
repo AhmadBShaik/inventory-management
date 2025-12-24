@@ -1,26 +1,34 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.custom-pagination .ant-pagination-item {
+  border-radius: 8px !important;
+  border-color: #f3f4f6 !important; 
+  background: #f9fafb !important; 
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.custom-pagination .ant-pagination-item-active {
+  background: #7c3aed !important;
+  border-color: #7c3aed !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.custom-pagination .ant-pagination-item-active a {
+  color: white !important;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.custom-pagination .ant-pagination-prev .ant-pagination-item-link,
+.custom-pagination .ant-pagination-next .ant-pagination-item-link {
+  border-radius: 8px !important;
+  background: #f9fafb !important;
+  border-color: #f3f4f6 !important;
+}
+
+.custom-pagination .ant-pagination-item:hover {
+  border-color: #7c3aed !important;
+}
+
+.custom-pagination.ant-pagination {
+  display: flex !important;
+  gap: 8px !important; /* This creates the space between the buttons */
+  align-items: center;
 }
