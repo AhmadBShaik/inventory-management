@@ -18,8 +18,8 @@ React, Next.js, TypeScript, Antd, Tailwind CSS, Radix UI
 
 ## Preview
 
-![Grid View](hhttps://inventory-management-seven-chi.vercel.app/GridView.png)
-![Table View](hhttps://inventory-management-seven-chi.vercel.app/TableView.png)
+![Grid View](https://inventory-management-seven-chi.vercel.app/GridView.png)
+![Table View](https://inventory-management-seven-chi.vercel.app/TableView.png)
 
 ## Deployed on Vercel
 This application is deployed in Vercel
