@@ -1,8 +1,8 @@
+import { useCurrentPageNumber } from '@/app/context/currentPage';
+import { useProducts } from '@/app/context/products';
 import { App, Modal } from 'antd';
 import { useState } from 'react';
 import ProductForm from './ProductForm';
-import { Product } from '@/app/types';
-import { useProducts } from '@/app/context/products';
 
 interface ProductModalProps {
   productId: string | number | null;
@@ -15,14 +15,15 @@ const ProductModal = ({ productId, onClose }: ProductModalProps) => {
   const { products, setProducts } = useProducts()
   const editingProduct = products.find(product => product.id === productId)
   const isEdit = !!editingProduct
+  const {setCurrent} = useCurrentPageNumber()
   const handleFinish = async (values: any) => {
     setConfirmLoading(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       if (!editingProduct) {
         const newProduct = { ...values, id: products.length + 1, isActive: true, createdAt: new Date().toISOString() }
-        console.log(newProduct)
-        setProducts([...products, newProduct])
+        setProducts([newProduct, ...products])
+        setCurrent(1)
       } else {
         setProducts(products => (products.map(product => {
           if (editingProduct.id === product.id) {

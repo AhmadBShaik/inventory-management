@@ -1,17 +1,17 @@
 import { Product } from '@/app/types';
-import { Table, Tag, Badge } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
 import {
   EyeOpenIcon,
-  Pencil2Icon,
-  TrashIcon
+  Pencil2Icon
 } from "@radix-ui/react-icons";
+import { Table, Tag } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
 
-import productData from '../public/data.json'
-import { formatCurrency } from '@/utils/currencyFormatter';
-import ProductDetailsDrawer from './ProductDrawer';
-import { useState } from 'react';
+import { useCurrentPageNumber } from '@/app/context/currentPage';
 import { useShowModal } from '@/app/context/modal';
+import { formatCurrency } from '@/utils/currencyFormatter';
+import { useState } from 'react';
+import productData from '../public/data.json';
+import ProductDetailsDrawer from './ProductDrawer';
 const uniqueCategories = Array.from(new Set((productData as Array<Product>).map(p => p.category)));
 
 const Actions = ({ product }: { product: Product }) => {
@@ -134,6 +134,7 @@ export const productColumns: ColumnsType<Product> = [
 ];
 
 const TableView = ({ products }: { products: Array<Product> }) => {
+  const {current, setCurrent} = useCurrentPageNumber()
   return (<Table
     dataSource={products}
     columns={productColumns}
@@ -143,7 +144,11 @@ const TableView = ({ products }: { products: Array<Product> }) => {
       pageSize: 8,
       placement: ['bottomCenter'],
       showSizeChanger: false,
-      className: 'custom-pagination'
+      className: 'custom-pagination',
+      current,
+      onChange:(page) => {
+        setCurrent(page)
+      }
     }}
     size="middle"
     className='mb-5'

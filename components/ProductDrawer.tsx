@@ -1,7 +1,7 @@
 import { useShowModal } from '@/app/context/modal';
 import { Product } from '@/app/types';
-import { Pencil2Icon, TrashIcon } from '@radix-ui/react-icons';
-import { Drawer, Descriptions, Tag, Divider, Button, Statistic, Space } from 'antd';
+import { Pencil2Icon } from '@radix-ui/react-icons';
+import { Descriptions, Divider, Drawer, Statistic, Tag } from 'antd';
 
 const ProductDetailsDrawer = ({ product, visible, onClose, showActions }: { product: Product, visible: boolean, onClose: () => void, showActions?: boolean }) => {
 

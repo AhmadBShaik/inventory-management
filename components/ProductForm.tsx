@@ -1,6 +1,6 @@
-import { Form, Input, InputNumber, Select, Button, Space } from 'antd';
 import { Product } from '@/app/types';
 import { tags } from '@/constants/tags';
+import { Button, Form, Input, InputNumber, Select } from 'antd';
 const MAX_COUNT = 3;
 
 interface ProductFormProps {

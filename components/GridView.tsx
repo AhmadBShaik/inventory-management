@@ -1,14 +1,15 @@
-import { Product } from "@/app/types"
+import { Product } from "@/app/types";
 import { Pagination, PaginationProps, } from "antd";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 
-import { Badge } from "antd";
+import { useCurrentPageNumber } from "@/app/context/currentPage";
+import { formatCurrency } from "@/utils/currencyFormatter";
 import {
   ArchiveIcon,
 } from "@radix-ui/react-icons";
-import ProductDetailsDrawer from "./ProductDrawer";
-import { formatCurrency } from "@/utils/currencyFormatter";
+import { Badge } from "antd";
 import clsx from "clsx";
+import ProductDetailsDrawer from "./ProductDrawer";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const [showDetails, setShowDetails] = useState(false)
@@ -61,7 +62,7 @@ const ProductCard = ({ product }: { product: Product }) => {
   );
 };
 const GridView = ({ products }: { products: Array<Product> }) => {
-  const [current, setCurrent] = useState(1)
+  const { current, setCurrent} = useCurrentPageNumber()
   const onChange: PaginationProps['onChange'] = (page) => {
     setCurrent(page);
   };

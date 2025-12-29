@@ -1,17 +1,17 @@
 "use client"
 
-import { useProducts } from "../context/products";
-import ViewToggle from "@/components/ToggleGroup";
+import AddNewProductButton from "@/components/AddNewProductButton";
 import Container from "@/components/Container";
-import TableView from "@/components/TableView";
 import GridView from "@/components/GridView";
 import ProductModal from "@/components/ProductFormModal";
-import { Cross1Icon, MagnifyingGlassIcon, PlusIcon } from "@radix-ui/react-icons";
-import { useShowModal } from "../context/modal";
-import { useMemo, useRef, useState } from "react";
-import { getFilteredProducts } from "@/utils/filteredProducts";
+import TableView from "@/components/TableView";
+import ViewToggle from "@/components/ToggleGroup";
 import { useDeboucedValue } from "@/hooks";
-import AddNewProductButton from "@/components/AddNewProductButton";
+import { getFilteredProducts } from "@/utils/filteredProducts";
+import { Cross1Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { useMemo, useRef, useState } from "react";
+import { useShowModal } from "../context/modal";
+import { useProducts } from "../context/products";
 
 export default function Home() {
   const { products, view } = useProducts()
@@ -23,6 +23,7 @@ export default function Home() {
   const handleClearFilter = () => {
     setSearchQuery('')
     setDebouncedSearchQuery('')
+    inputRef.current?.focus()
   }
   const inputRef = useRef<HTMLInputElement | null>(null)
   return (
@@ -47,7 +48,7 @@ export default function Home() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             {searchQuery ?
-              <Cross1Icon className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-400 group-focus-within:text-indigo-600 transition-colors cursor-pointer" onClick={handleClearFilter}
+              <Cross1Icon tabIndex={0} role="button" onKeyDown={handleClearFilter} className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-400 group-focus-within:text-indigo-600 transition-colors cursor-pointer" onClick={handleClearFilter}
                 aria-label="Clear Search Query"
               /> : null
             }

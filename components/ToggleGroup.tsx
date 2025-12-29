@@ -1,11 +1,10 @@
-import { ToggleGroup } from "radix-ui";
+import { useProducts } from "@/app/context/products";
 import {
   TableIcon,
-  GridIcon,
   ViewGridIcon
 } from "@radix-ui/react-icons";
-import { useProducts } from "@/app/context/products";
 import clsx from "clsx";
+import { ToggleGroup } from "radix-ui";
 
 
 const ViewToggle = () => {
@@ -26,6 +25,7 @@ const ViewToggle = () => {
         value="grid"
         aria-label="Grid view"
         title="Grid View"
+        tabIndex={0}
         className={clsx(
           "cursor-pointer p-2 bg-white text-gray-600 rounded-lg",
           "data-[state=on]:bg-violet-200 data-[state=on]:text-violet-900",
@@ -37,6 +37,7 @@ const ViewToggle = () => {
         value="table"
         aria-label="Table view"
         title="Table View"
+        tabIndex={0}
         className={clsx(
           "cursor-pointer p-2 bg-white text-gray-600 rounded-lg",
           "data-[state=on]:bg-violet-200 data-[state=on]:text-violet-900",

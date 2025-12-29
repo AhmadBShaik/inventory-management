@@ -1,10 +1,11 @@
+import { AntdRegistry } from '@ant-design/nextjs-registry';
+import { App, ConfigProvider } from "antd";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { CurrentPageProvider } from "./context/currentPage";
+import { ShowModalProvider } from "./context/modal";
 import { ProductsProvider } from "./context/products";
-import { AntdRegistry } from '@ant-design/nextjs-registry';
-import { ConfigProvider, App } from "antd";
-import { ShowModalContext, ShowModalProvider } from "./context/modal";
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,9 +46,12 @@ export default function RootLayout({
             }}
           >
             <App>
-              <ShowModalProvider>
-                <ProductsProvider>{children}</ProductsProvider>
-              </ShowModalProvider>
+              <CurrentPageProvider>
+
+                <ShowModalProvider>
+                  <ProductsProvider>{children}</ProductsProvider>
+                </ShowModalProvider>
+              </CurrentPageProvider>
             </App>
           </ConfigProvider>
         </AntdRegistry>
