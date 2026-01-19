@@ -2,16 +2,25 @@
 
 import Container from "@/components/Container";
 import FilterAndAddActions from "@/components/FilterAndAddActions";
-import GridView from "@/components/GridView";
 import NoResultsFound from "@/components/NoResultsFound";
 import ProductModal from "@/components/ProductFormModal";
-import TableView from "@/components/TableView";
 import ViewToggle from "@/components/ToggleGroup";
 import { useDeboucedValue } from "@/hooks";
 import { getFilteredProducts } from "@/utils/filteredProducts";
-import { useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useMemo, useRef, useState } from "react";
 import { useShowModal } from "../context/modal";
 import { useProducts } from "../context/products";
+
+const wait = (delay: number) =>
+  new Promise((resolve) => setTimeout(resolve, delay));
+
+const GridView = lazy(() =>
+  wait(1000).then(() => import("@/components/GridView")),
+);
+
+const TableView = lazy(() =>
+  wait(1000).then(() => import("@/components/TableView")),
+);
 
 export default function Home() {
   const { products, view } = useProducts();
@@ -56,9 +65,13 @@ export default function Home() {
   } else {
     content =
       view === "grid" ? (
-        <GridView products={filteredProducts} />
+        <Suspense fallback={<p>Loading Grid View</p>}>
+          <GridView products={filteredProducts} />
+        </Suspense>
       ) : (
-        <TableView products={filteredProducts} />
+        <Suspense fallback={<p>Loading Table View</p>}>
+          <TableView products={filteredProducts} />
+        </Suspense>
       );
   }
   return (
